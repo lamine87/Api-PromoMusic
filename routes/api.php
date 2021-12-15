@@ -5,6 +5,8 @@ use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Gestion\GestionRedirectController;
 use App\Http\Controllers\Gestion\ActuController;
+use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Post\CommentController;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,6 +69,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
      // Delete route Actualité
     Route::post('/destroy/actu/{id}',[ActuController::class, 'destroy']);
 
+    //////////////_Protected Route///////////// Post Comment /////////////_Protected Route//
+    // Adding route Comment
+     Route::post('/add/comment/{media}', [CommentController::class, 'store']);
+
+     // Edit route Comment
+    Route::get('/edit/comment/{id}', [CommentController::class, 'show']);
+
+      //  Update route Comment
+    Route::post('/update/comment/{id}',[CommentController::class, 'update']);
+
+    //  Delete route Comment
+    Route::post('/destroy/comment/{id}',[CommentController::class, 'destroy']);
 
 });
 
@@ -90,4 +104,10 @@ Route::get('/categorie/{id}',[PageController::class, 'voirCategorie']);
 Route::get('/pays/{id}',[PageController::class, 'country']);
 
 // Display route Actu
-Route::get('/actu',[ActuController::class, 'Actu']);
+Route::get('/actu', [ActuController::class, 'Actu']);
+
+//Public//////////////////////// Post Comment ////////////////////////Public//
+     // Route post index
+Route::get('/comment/index', [CommentController::class, 'index']);
+
+

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $guarded = [];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -54,5 +55,24 @@ class User extends Authenticatable
         }
         return false;
     }
+
+
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+
+    public function posts() {
+
+        return $this->hasMany(Post::class);
+
+    }
+
+
 
 }

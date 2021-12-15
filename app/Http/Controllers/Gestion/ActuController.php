@@ -9,6 +9,7 @@ use App\Models\Media;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
 
+
 class ActuController extends Controller
 {
     //
@@ -109,6 +110,7 @@ class ActuController extends Controller
         $actualite->title = $request->title;
         $actualite->image = $uniqid.$fileName;
         $actualite->save();
+
 
         return response()->json([JSON_PRETTY_PRINT,
         'message'=>'successful!',
