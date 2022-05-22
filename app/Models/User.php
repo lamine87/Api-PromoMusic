@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class User extends Authenticatable
 {
@@ -57,22 +59,11 @@ class User extends Authenticatable
     }
 
 
-    public function replies()
-    {
-        return $this->hasMany(Comment::class, 'parent_id');
-    }
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
+    public function medias() {
 
-
-    public function posts() {
-
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Media::class);
 
     }
-
 
 
 }

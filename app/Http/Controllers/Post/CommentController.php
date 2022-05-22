@@ -31,7 +31,7 @@ class CommentController extends Controller
     public function store(Media $media)
     {
     	request()->validate([
-            'content'=>'required|min:3',
+            'content'=>'required|min:3|max:300',
         ]);
 
         $comment = new Comment();
@@ -39,12 +39,15 @@ class CommentController extends Controller
         $comment->user_id = auth()->user()->id;
         $media->comments()->save($comment);
 
+
         return response()->json([JSON_PRETTY_PRINT,
         'message'=>'successful!',
         'status'=>true,
         'comment' => $comment,
          ]);
     }
+
+
 
     public function show($id)
     {
@@ -74,10 +77,33 @@ class CommentController extends Controller
          ]);
     }
 
-
     public function destroy($id)
     {
         return Comment::destroy($id);
+    }
+
+
+    public function replyStore(Request $request, Comment $comment)
+    {
+
+    	request()->validate([
+            'content'=>'required|min:3',
+        ]);
+
+        $reply = new Comment();
+        $reply->content = request('content');
+        $reply->user_id = auth()->user()->id;
+        $reply->parent_id = request('comment');
+        //$reply = Media::find($request->get('media'));
+        $comment->commentables()->save($reply);
+
+        return response()->json([JSON_PRETTY_PRINT,
+        'message'=>'successful!',
+        'status'=>true,
+        'comment' => $reply,
+
+         ]);
+
     }
 
 }

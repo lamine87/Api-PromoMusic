@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //////////////_Protected Route///////////// Post Comment /////////////_Protected Route//
     // Adding route Comment
-     Route::post('/add/comment/{media}', [CommentController::class, 'store']);
+    Route::post('/add/comment/{media}', [CommentController::class, 'store']);
 
      // Edit route Comment
     Route::get('/edit/comment/{id}', [CommentController::class, 'show']);
@@ -81,6 +81,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //  Delete route Comment
     Route::post('/destroy/comment/{id}',[CommentController::class, 'destroy']);
+
+     // Adding route Reply
+     Route::post('/add/reply/{comment}', [PostController::class, 'store']);
+
+     // Edit route Post
+    Route::get('/edit/post/{id}', [PostController::class, 'show']);
+
+      //  Update route Comment
+    Route::post('/update/post/{id}',[PostController::class, 'update']);
+
+    //  Delete route post
+    Route::post('/destroy/post/{id}',[PostController::class, 'destroy']);
 
 });
 
@@ -107,7 +119,8 @@ Route::get('/pays/{id}',[PageController::class, 'country']);
 Route::get('/actu', [ActuController::class, 'Actu']);
 
 //Public//////////////////////// Post Comment ////////////////////////Public//
-     // Route post index
+     // Route comment index
 Route::get('/comment/index', [CommentController::class, 'index']);
 
-
+  // Route post index
+  //Route::get('/post/index', [PostController::class, 'index']);
