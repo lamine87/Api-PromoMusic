@@ -110,13 +110,17 @@ Route::get('/media/search/{texte}',[MediaController::class, 'search']);
 Route::post('/register',[AuthController::class, 'register']);
 
 // Category route
+Route::get('/categorie',[PageController::class, 'categorie']);
+
 Route::get('/categorie/{id}',[PageController::class, 'voirCategorie']);
 
+
+Route::get('/pays',[PageController::class, 'continent']);
 // Country route
-Route::get('/pays/{id}',[PageController::class, 'country']);
+Route::get('/pays/{id}',[PageController::class, 'pays']);
 
 // Display route Actu
-Route::get('/actu', [ActuController::class, 'Actu']);
+Route::get('/actualite', [ActuController::class, 'actu']);
 
 //Public//////////////////////// Post Comment ////////////////////////Public//
      // Route comment index

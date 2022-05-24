@@ -16,9 +16,16 @@ class ActuController extends Controller
     public function actu(){
         //$actualite = DB::table('actualites')
          //   ->orderBy('created_at', 'desc')->paginate(6);
-         $actualite = Actualite::all();
+
+
+         $actualites = Actualite::where('is_online','=',1)->get();
+         foreach ($actualites as $actualite)
+         {
+             $actualite['image'] = env('BASE_URL').$actualite['image'];
+         }
+
          return response()->json([JSON_PRETTY_PRINT,
-         'actualites' => $actualite,
+         'actualites' => $actualites,
       ]);
      }
 

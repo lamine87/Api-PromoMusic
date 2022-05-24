@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Actualite;
 use App\Models\Categorie;
+use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,14 +25,38 @@ class PageController extends Controller
         ]);
     }
 
-    public function country(Request $request){
 
-        $media = DB::table('media')
-            ->where('is_online','=', 1)
-            ->where('pays_id', '=',$request->id)->get();
+
+
+
+public function pays(Request $request){
+
+    $pays = DB::table('pays')
+        // ->where('is_online','=', 1)
+        ->where('pays_id', '=',$request->id)->get();
+        return response()->json([JSON_PRETTY_PRINT,
+        'pays' => $pays,
+      ]);
+}
+
+
+    public function continent(){
+
+        $pays = Pays::all();
+
+        // = DB::table('pays')
+        //     ->where('is_online','=', 1)
+        //     ->where('pays_id', '=',$request->id)->get();
             return response()->json([JSON_PRETTY_PRINT,
-            'media' => $media,
-         ]);
+            'pays' => $pays,
+          ]);
    }
+   public function categorie(){
+
+    $categorie = Categorie::all();
+        return response()->json([JSON_PRETTY_PRINT,
+        'categorie' => $categorie,
+      ]);
+}
 
 }
