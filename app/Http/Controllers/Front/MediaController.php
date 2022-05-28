@@ -185,9 +185,9 @@ class MediaController extends Controller
      * @param  str  $texte
      * @return \Illuminate\Http\Response
      */
-    public function search($texte)
+    public function search($title)
     {
-        return Media::where('texte','like','%'. $texte .'%')->get();
+        return Media::where('title','like','%'. $title .'%')->get();
     }
 
 }
