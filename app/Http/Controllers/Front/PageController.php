@@ -26,9 +26,6 @@ class PageController extends Controller
     }
 
 
-
-
-
 public function pays(Request $request){
 
     $pays = DB::table('pays')

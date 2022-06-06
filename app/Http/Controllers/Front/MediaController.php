@@ -186,7 +186,13 @@ class MediaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search($title)
+
     {
+        // $medias = Media::all();
+        // foreach ($medias as $media)
+        // {
+        //     $media['image'] = env('BASE_URL').$media['image'];
+        // }
         return Media::where('title','like','%'. $title .'%')->get();
     }
 

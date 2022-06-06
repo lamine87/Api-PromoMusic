@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\token;
 
 class AuthController extends Controller
 {
@@ -18,7 +18,7 @@ class AuthController extends Controller
         $fields = $request->validate([
             'name' => 'required', 'string', 'max: 100',
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
-            'password' => 'required', 'string', 'min:8', 'confirmed',
+            'password' => 'required|string|confirmed|min:8',
         ]);
 
         $user = User::create([
@@ -39,6 +39,17 @@ class AuthController extends Controller
         ]);
 
     }
+
+
+
+        public function users(){
+
+            $user = User::all();
+                return response()->json([JSON_PRETTY_PRINT,
+                'user' => $user,
+              ]);
+        }
+
 
     public function login(Request $request){
         $fields = $request->validate([
@@ -64,7 +75,7 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
             'token_type' => 'Bearer',
-            'token_expires_at'=> $token->token->expires_at,
+            // 'token_expires_at'=> $token->token->expires_at,
         ]);
         //return response($response,201);
 
@@ -72,10 +83,29 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
-        return response()->json([
-            'message' => 'Successfully logged out'
+        // auth()->user()->tokens()->delete();
+        // return response()->json([
+        //     'message' => 'Successfully logged out'
+        // ]);
+
+        $this->validate($request, [
+            'allDevice' => 'required'
         ]);
+
+        /**
+         * @var user $user
+         */
+        $user = Auth::user();
+        if ($request->allDevice) {
+            $user->tokens->each(function ($token) {
+                $token->delete();
+            });
+            return response(['message' => 'Déconnecté de tous les appareils !'], 200);
+        }
+
+        $userToken = $user->token();
+        $userToken->delete();
+        return response(['message' => 'Deconnexion réussie !'], 200);
     }
 
 

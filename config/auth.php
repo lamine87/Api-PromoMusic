@@ -108,7 +108,7 @@ return [
 
     'password_timeout' => 10800,
     'api' => [
-        'driver' => 'token',
+        'driver' => 'passport',
         'provider' => 'users',
         'hash' => true,
     ],

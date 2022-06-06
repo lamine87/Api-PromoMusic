@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Routing\RouteGroup;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,10 +35,11 @@ use Illuminate\Support\Facades\DB;
 
 //Route::group(['middleware'=>['auth:sanctum']],function(){
 //}
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware','Api'=> ['Api\Auth']], function () {
     // Login route
     Route::post("/login",[AuthController::class,'login']);
 
+    Route::get("/user",[AuthController::class,'users']);
     // Logout route
     Route::post("/logout",[AuthController::class,'logout']);
 
@@ -104,7 +105,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('/media',[MediaController::class, 'index']);
 
  // Search route media
-Route::get('/media/search/{texte}',[MediaController::class, 'search']);
+Route::get('/media/search/{title}',[MediaController::class, 'search']);
 
  // Register route
 Route::post('/register',[AuthController::class, 'register']);
