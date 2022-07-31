@@ -17,14 +17,20 @@ class Media extends Model
         return $this->belongsTo(Pays::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+
+    // public function categories()
+    // {
+    //     return $this->belongsToMany(Categorie::class);
+
+    // }
 
     public function categories()
     {
-        return $this->belongsToMany(Categorie::class);
+        return $this->belongsToMany('App\Categorie','categorie_media', 'categorie_id', 'media_id');
     }
 
 

@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\Front\MediaController;
-use App\Http\Controllers\Front\PageController;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Gestion\GestionRedirectController;
-use App\Http\Controllers\Gestion\ActuController;
-use App\Http\Controllers\Post\PostController;
-use App\Http\Controllers\Post\CommentController;
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Routing\RouteGroup;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Front\PageController;
+use App\Http\Controllers\Front\MediaController;
+use App\Http\Controllers\Gestion\ActuController;
+use App\Http\Controllers\Post\CommentController;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Routing\RouteGroup;
+use App\Http\Controllers\Gestion\GestionRedirectController;
+// use Youtube;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,7 +36,7 @@ use Illuminate\Routing\RouteGroup;
 
 //Route::group(['middleware'=>['auth:sanctum']],function(){
 //}
-Route::group(['middleware','Api'=> ['Api\Auth']], function () {
+Route::group(['middleware','Api'=> ['auth:passport']], function () {
     // Login route
     Route::post("/login",[AuthController::class,'login']);
 
@@ -95,6 +96,10 @@ Route::group(['middleware','Api'=> ['Api\Auth']], function () {
     //  Delete route post
     Route::post('/destroy/post/{id}',[PostController::class, 'destroy']);
 
+    Route::get('/youtube',[MediaController::class, 'youtubeur']);
+
+    Route::post('/youtubevideo',[MediaController::class, 'videoInsert']);
+
 });
 
 
@@ -129,3 +134,4 @@ Route::get('/comment/index', [CommentController::class, 'index']);
 
   // Route post index
   //Route::get('/post/index', [PostController::class, 'index']);
+Route::get('/youtube',[MediaController::class, 'youtubeur']);

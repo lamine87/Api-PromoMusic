@@ -6,13 +6,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "dawson/youtube": "^6.0",
         "fruitcake/laravel-cors": "^2.0",
+        "google/apiclient": "~2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
         "laravel/framework": "^8.65",
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.12",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "madcoda/php-youtube-api": "^1.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

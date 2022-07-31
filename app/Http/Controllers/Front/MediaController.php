@@ -1,13 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\Front;
-use App\Http\Controllers\Controller;
-use App\Models\Media;
 use Faker\Core\File;
+use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+// use Google\Service\YouTube;
+// use Google\Service\YouTube;
+// use Dawson\Youtube\Facades\Youtube;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\ImageManagerStatic as Image;
+use Symfony\Component\Console\Input\Input;
+// use Google\Service\YouTube as ServiceYouTube;
+use Madcoda\Youtube\Facades\Youtube;
 use Illuminate\Support\Facades\File as FileFacade;
+use Intervention\Image\ImageManagerStatic as Image;
 
 
 class MediaController extends Controller
@@ -20,6 +27,8 @@ class MediaController extends Controller
     public function index()
     {
         $medias = Media::where('is_online','=',1)->get();
+       // $medias = Media::where('is_online','=',1)->orderBy('created_at', 'DESC');
+
         foreach ($medias as $media)
         {
             $media['image'] = env('BASE_URL').$media['image'];
@@ -28,6 +37,48 @@ class MediaController extends Controller
         //->orderBy('created_at', 'desc')->simplePaginate(20);
         return $medias->toJson(JSON_PRETTY_PRINT);
     }
+    public function youtubeur()
+    {
+            // $video = Youtube::getVideoInfo('videos');
+            // $m = Youtube::getChannelByName('YoMusic');
+            // $channel = Youtube::getChannelById('YoMusic');
+            // $videoId = Youtube::parseVIdFromURL('videos');
+            // $playlists = Youtube::getPlaylistsByChannelId('UCsHds9fFTG0tz4p9LprUiGA');
+            $activities = Youtube::getActivitiesByChannelId('UCsHds9fFTG0tz4p9LprUiGA');
+
+        //    dd($activities);
+
+        return response()->json([JSON_PRETTY_PRINT,
+        'message'=>'successful!',
+        'activities'=> $activities,
+
+
+    ]);
+
+    }
+
+    public function videoInsert(Request $request)
+    {
+
+        $video = Youtube::upload($request->file('video')->getPathName(),[
+
+            'title'=> $request->title,
+            'description' => $request->description,
+
+
+        ])->withThumbnail($request->file('image')->getPathName());
+        return response()->json([JSON_PRETTY_PRINT,
+        'message'=>'successful!',
+        'status'=>true,
+        'video' => $video,
+
+         ]);
+
+    //  return "Video uploaded successfully. Video ID is ".$video->getVideoId();
+    }
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -43,11 +94,11 @@ class MediaController extends Controller
                 'url_video' => 'required | string',
                 'texte' => 'required | string | max:250',
                 'title' => 'required | string | max:100',
-                'pays_id'=> 'required',
                 'lien_facebook' => 'string',
                 'lien_instagram' => 'string',
                 'image' =>  'required|image|max:1999',
-                'categories'=> 'required',
+                //  'pays_id'=> 'required',
+                // 'categorie'=> 'required',
             ]
         );
         if ($request->hasFile('image')) {
@@ -76,13 +127,14 @@ class MediaController extends Controller
         $media->lien_instagram = $request->lien_instagram;
         $media->texte = $request->texte;
         $media->title = $request->title;
-        $media->pays_id = $request->pays_id;
         $media->image = $uniqid.$fileName;
-        if ($request->categories) {
-            foreach ($request->categories as $id) {
-                $media->categories()->attach($id);
-            }
-        }
+        // $media->pays_id = $request->pays_id;
+
+        // if ($request->categories) {
+        //     foreach ($request->categories as $id) {
+        //         $media->categories()->attach($id);
+        //     }
+        // }
         $media->save();
 
         return response()->json([JSON_PRETTY_PRINT,
@@ -186,7 +238,6 @@ class MediaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search($title)
-
     {
         // $medias = Media::all();
         // foreach ($medias as $media)
@@ -195,5 +246,7 @@ class MediaController extends Controller
         // }
         return Media::where('title','like','%'. $title .'%')->get();
     }
+
+
 
 }

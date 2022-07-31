@@ -29,5 +29,7 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'key' => env('API_KEY'),
+    'search_endpoint'=> env('SEARCH_ENDPOINT'),
+    'api' => env('Access_Control_Allow_Origin')
 ];
